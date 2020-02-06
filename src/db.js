@@ -1,43 +1,46 @@
-module.exports = {
-  data: {
-    authors: [
-      { id: '1', name: 'J.K. Rowling' },
-      { id: '2', name: 'J. D. Salinger' },
-      { id: '3', name: 'Stephen King' },
-    ],
-    books: [
-      {
-        id: '10',
-        title: "Harry Potter and the Sorcerer's stone",
-        authorId: '1',
-      },
-      {
-        id: '11',
-        title: 'Harry Potter and the Chamber of Secrets',
-        authorId: '1',
-      },
-      { id: '20', title: 'Catcher in the Rye', authorId: '2' },
-      { id: '31', title: 'The Shining', authorId: '3' },
-      { id: '32', title: 'Christine', authorId: '3' },
-    ],
-  },
+const data = {
+  authors: [
+    { id: '1', name: 'J.K. Rowling' },
+    { id: '2', name: 'J. D. Salinger' },
+    { id: '3', name: 'Stephen King' },
+  ],
+  books: [
+    {
+      id: '10',
+      title: "Harry Potter and the Sorcerer's stone",
+      authorId: '1',
+    },
+    {
+      id: '11',
+      title: 'Harry Potter and the Chamber of Secrets',
+      authorId: '1',
+    },
+    { id: '20', title: 'Catcher in the Rye', authorId: '2' },
+    { id: '31', title: 'The Shining', authorId: '3' },
+    { id: '32', title: 'Christine', authorId: '3' },
+  ],
+};
+
+const db = {
   getAuthors() {
-    return this.data.authors;
+    return data.authors;
   },
   getAuthor(authorId) {
-    return this.data.authors.find(author => author.id === authorId);
+    return data.authors.find(author => author.id === authorId);
   },
   getAuthorBooks(authorId) {
-    return this.data.books.filter(book => book.authorId === authorId);
+    return data.books.filter(book => book.authorId === authorId);
   },
   getBooks() {
-    return this.data.books;
+    return data.books;
   },
   getBook(bookId) {
-    return this.data.books.find(book => book.id === bookId);
+    return data.books.find(book => book.id === bookId);
   },
   getBookAuthor(bookId) {
     const { authorId } = this.getBook(bookId);
     return this.getAuthor(authorId);
   },
 };
+
+module.exports = db;
