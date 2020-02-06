@@ -17,8 +17,8 @@ const getUrl = (req, uri) => {
 app.get('/', (req, res) =>
   res.json({
     links: {
-      'rest api': `${getUrl(req, 'api')}`,
       graphql: `${getUrl(req, 'graphql')}`,
+      rest: `${getUrl(req, 'api')}`,
     },
   }),
 );
