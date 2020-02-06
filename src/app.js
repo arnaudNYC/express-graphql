@@ -132,7 +132,10 @@ const server = new ApolloServer({
 });
 server.applyMiddleware({ app });
 
-app.listen(port, () =>
+app.listen(port, () => {
   // eslint-disable-next-line no-console
-  console.log(`🏃‍♂️ ${process.env.SANDBOX_URL || `http://localhost:${port}/`}`),
-);
+  console.log(
+    'Running on',
+    process.env.SANDBOX_URL || `http://localhost:${port}/`,
+  );
+});
