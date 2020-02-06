@@ -73,17 +73,17 @@ bookRouter
 // GraphQL
 const resolvers = {
   Query: {
-    Authors() {
+    Authors(_, { id }) {
+      if (id) {
+        return [].concat(db.getAuthor(id));
+      }
       return db.getAuthors();
     },
-    Author(_, { id }) {
-      return db.getAuthor(id);
-    },
-    Books() {
+    Books(_, { id }) {
+      if (id) {
+        return [].concat(db.getBook(id));
+      }
       return db.getBooks();
-    },
-    Book(_, { id }) {
-      return db.getBook(id);
     },
   },
   Author: {
@@ -100,10 +100,8 @@ const resolvers = {
 
 const typeDefs = /* GraphQL */ gql`
   type Query {
-    Authors: [Author]
-    Author(id: ID!): Author
-    Books: [Book]
-    Book(id: ID!): Book
+    Authors(id: ID): [Author]
+    Books(id: ID): [Book]
   }
 
   type Author {
