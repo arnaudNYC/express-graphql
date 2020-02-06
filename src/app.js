@@ -101,18 +101,18 @@ const resolvers = {
 const typeDefs = /* GraphQL */ gql`
   type Query {
     Authors: [Author]
-    Author(id: ID): Author
+    Author(id: ID!): Author
     Books: [Book]
-    Book(id: ID): Book
+    Book(id: ID!): Book
   }
 
   type Author {
-    id: ID
+    id: ID!
     name: String
   }
 
   type Book {
-    id: ID
+    id: ID!
     title: String
   }
 
