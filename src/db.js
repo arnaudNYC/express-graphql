@@ -3,6 +3,7 @@ const data = {
     { id: '1', name: 'J.K. Rowling' },
     { id: '2', name: 'J. D. Salinger' },
     { id: '3', name: 'Stephen King' },
+    { id: '4', name: 'Victor Hugo' },
   ],
   books: [
     {
@@ -13,6 +14,11 @@ const data = {
     {
       id: '11',
       title: 'Harry Potter and the Chamber of Secrets',
+      authorId: '1',
+    },
+    {
+      id: '12',
+      title: 'Harry Potter and the Prisoner of Azkaban',
       authorId: '1',
     },
     { id: '20', title: 'Catcher in the Rye', authorId: '2' },

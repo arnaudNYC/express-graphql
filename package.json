@@ -4,13 +4,16 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon src/app"
+    "start": "nodemon src/app",
+    "lint": "eslint prettier.config.js src --fix",
+    "prelint": "prettier *.js src/*.js client/src/*.js --write"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
     "apollo-server-express": "^2.9.16",
+    "cors": "^2.8.5",
     "express": "^4.17.1"
   },
   "devDependencies": {

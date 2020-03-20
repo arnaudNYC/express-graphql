@@ -1,50 +1,24 @@
 const express = require('express');
+const cors = require('cors');
 const { ApolloServer, gql } = require('apollo-server-express');
 
 const db = require('./db');
 
-const app = express();
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 4000;
 
-// HATEOAS
-const getUrl = (req, uri) => {
-  const { SANDBOX_URL } = process.env;
-  if (SANDBOX_URL) {
-    return `${SANDBOX_URL}${uri}`;
-  }
-  return `${req.protocol}://${req.hostname}:${port}/${uri}`;
-};
-app.get('/', (req, res) =>
-  res.json({
-    links: {
-      graphql: `${getUrl(req, 'graphql')}`,
-      rest: `${getUrl(req, 'api')}`,
-    },
-  }),
+const app = express();
+app.use(cors());
+
+const hateoas = require('./hateoas');
+
+hateoas(app, port, db);
+
+// throttle between 50 and 250ms
+const DELAY = 50;
+const JITTER = 200;
+app.use('*', (req, res, next) =>
+  setTimeout(next, DELAY + Math.floor(Math.random() * Math.floor(JITTER))),
 );
-app.get('/api', (req, res) => {
-  const root = `${getUrl(req, 'api')}`;
-  res.json({
-    links: {
-      authors: `${root}/authors`,
-      books: `${root}/books/`,
-    },
-    authors: db.getAuthors().map(author => ({
-      ...author,
-      links: {
-        details: `${root}/authors/${author.id}`,
-        books: `${root}/authors/${author.id}/books`,
-      },
-    })),
-    books: db.getBooks().map(book => ({
-      ...book,
-      links: {
-        details: `${root}/books/${book.id}`,
-        author: `${root}/books/${book.id}/author`,
-      },
-    })),
-  });
-});
 
 // REST route for authors
 const authorRouter = express.Router();
@@ -98,6 +72,7 @@ const resolvers = {
   },
 };
 
+// this is called a tagged template
 const typeDefs = /* GraphQL */ gql`
   type Query {
     Authors: [Author]
@@ -134,8 +109,5 @@ server.applyMiddleware({ app });
 
 app.listen(port, () => {
   // eslint-disable-next-line no-console
-  console.log(
-    'Running on',
-    process.env.SANDBOX_URL || `http://localhost:${port}/`,
-  );
+  console.log('🏃 on', process.env.SANDBOX_URL || `http://localhost:${port}/`);
 });
